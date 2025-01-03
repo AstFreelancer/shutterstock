@@ -40,7 +40,6 @@ def extract_date_taken(image_path):
 
     if date_taken_str:
         try:
-            # string parse time
             date_taken = datetime.strptime(date_taken_str.decode('utf-8'), '%Y:%m:%d %H:%M:%S')
             return date_taken.year, date_taken.month, date_taken.day
         except ValueError:
@@ -57,11 +56,7 @@ def add_metadata(image_path: str, title, category, tags, month, day, year, count
         commands = [
             'C:\\Program Files\\exiftool\\exiftool.exe',
             '-overwrite_original',
-            # f'-Title={title}',
-            f'-Headline={title}',
-            # f'-ImageDescription={title}',
-            # f'-Keywords={tags}',
-            # image_path
+            f'-Headline={title}'
         ]
         if tags:
             for tag in tags:
@@ -69,7 +64,6 @@ def add_metadata(image_path: str, title, category, tags, month, day, year, count
                 commands.append(f'-Keywords={clean_tag}')
 
         commands.append(image_path)
-
         subprocess.run(commands, check=True)
 
     except subprocess.CalledProcessError as e:
